@@ -1,0 +1,85 @@
+{   "extensionName": "Bugster",
+    "sort":0,
+    "extensionPort": 0,
+    "firmware":"1.0",
+    "javascriptURL":"js/bugster.js",
+    "blockSpecs": [
+        ["h","Bugster Program","runArduino"],
+        ["w","config Bugster","initBugster",
+            {
+                "setup":"f_servo.attach(servoPin1);\nr_servo.attach(servoPin2);\n",
+                "inc":"#include \"VarSpeedServo.h\"\n",
+                "def":"\n\nVarSpeedServo f_servo;\nVarSpeedServo r_servo;\nconst int servoPin1 = 2;\nconst int servoPin2 = 12;\nconst int echo = 8;\nconst int trig = 9;\n\n\nfloat getDistance(String units) {\npinMode(trig,OUTPUT);\ndigitalWrite(trig,LOW);\ndelayMicroseconds(5);\ndigitalWrite(trig,HIGH);\ndelayMicroseconds(10);\npinMode(echo,INPUT);\nint p=pulseIn(echo, HIGH);\nif (units == \"mm\") return p*0.17;\nelse if (units == \"cm\") return p*1.7;\nelse if (units == \"in\") return p*0.66;\n}\n",
+                "work":"",
+                "loop":""
+            }
+        ],
+        ["w", "set %d.servo_list servo angle at %n", "setServoAngle", "front", "90", {
+                "setup":"",
+                "inc":"",
+                "def":"\n\nvoid move(String servo, int angle) {\nif(servo==\"front\") f_servo.write(angle, 127, true);\nelse r_servo.write(angle, 127, true);\n}\n\n",
+                "work":"move({0},{1});\n",
+                "loop":""
+            }
+        ],
+        ["w", "set %d.servo_list servo speed at %n", "setServoSpeed", "front",
+        "100", {
+                "setup":"",
+                "inc":"",
+                "def":"",
+                "work":"",
+                "loop":""
+            }
+        ],
+        ["w", "walk %d.direction1", "setWalk", "forward",
+            {
+                "setup":"",
+                "inc":"",
+                "def":"\n\nvoid walk() {\nr_servo.write(120,100,true);\nf_servo.write(120,100,true);\nr_servo.write(60,100,true);\nf_servo.write(60,100,true);}\n\n",
+                "work":"walk();\n",
+                "loop":""
+            }
+        ],
+        ["w", "turn %d.direction2", "setTurn", "left",
+            {
+                "setup":"",
+                "inc":"",
+                "def":"",
+                "work":"",
+                "loop":""
+            }
+        ],
+        ["r", "get ultrasonic distance in %d.units", "getUltrasonic", "mm",
+            {
+                "setup":"",
+                "inc":"",
+                "def":"",
+                "work":"getDistance({0})",
+                "loop":""
+            }
+        ],
+        ["B", "Hoja Delante", "getLeaf",
+            {
+                "setup":"",
+                "inc":"",
+                "def":"",
+                "work":"getDistance(\"cm\") < 25",
+                "loop":""
+            }
+        ]
+    ],
+    "menus": {
+        "servovalue":["0","45","90","135","180"],
+        "digital":["HIGH","LOW"],
+        "servo_list":["front", "rear"],
+        "direction1":["forward", "backward"],
+        "direction2":["left", "right"],
+        "units":["mm", "in", "cm"]
+    },
+    "values":{
+        "front":"front",
+        "rear":"rear"
+    },
+    "translators":{
+    }
+}
