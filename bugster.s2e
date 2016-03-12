@@ -35,7 +35,7 @@
             {
                 "setup":"",
                 "inc":"",
-                "def":"\n\nvoid walk() {\nr_servo.write(120,100,true);\nf_servo.write(120,100,true);\nr_servo.write(60,100,true);\nf_servo.write(60,100,true);}\n\n",
+                "def":"\n\nvoid walk(String direction) {\nboolean front = direction == \"front\";\nr_servo.write(front ? 120 : 60,100,true);\nf_servo.write(front ? 120 : 60,100,true);\nr_servo.write(front ? 60 : 120,100,true);\nf_servo.write(front ? 60 : 120,100,true);}\n\n",
                 "work":"walk();\n",
                 "loop":""
             }
