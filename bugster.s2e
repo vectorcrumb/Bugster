@@ -17,7 +17,7 @@
         ["w", "set %d.servo_list servo angle at %n", "setServoAngle", "front", "90", {
                 "setup":"",
                 "inc":"",
-                "def":"\n\nvoid move(String servo, int angle) {\nif(servo==\"front\") f_servo.write(angle, 127, true);\nelse r_servo.write(angle, 127, true);\n}\n\n",
+                "def":"\n\nvoid move(String servo, int angle) {\nif(servo==\"front\") f_servo.write(angle, 127, true);\nelse r_servo.write(angle, 127, true);}\n\n",
                 "work":"move({0},{1});\n",
                 "loop":""
             }
